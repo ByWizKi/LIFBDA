@@ -43,8 +43,6 @@ create table Ratings(
     )
 );
 
-alter table movies add cons
-
 insert into movies(id_movie, title_movie, year_movie, director_movie) values
     (101, 'Gone with the Wind', 1939, 'Victor Fleming'),
     (102, 'Star Wars', 1977, 'George Lucas'),
@@ -88,6 +86,77 @@ INSERT INTO ratings(id_reviewer, id_movie, stars_rating, date_rating) values
     (203, 105, 2, '2011-04-27'),
     (203, 106, 4, '2011-05-27'),
     (203, 107, 5, '2011-06-27')
+
+
+select name_reviewer 
+    from Reviewers 
+        where id_reviewer = 205;
+
+select distinct 
+    title_movie 
+        from Movies;
+
+select distinct 
+    title_movie 
+        from Movies 
+            order by title_movie ASC;
+
+select distinct 
+    title_movie 
+        from Movies 
+            where (director_movie = 'Steven Spielberg');
+
+select distinct 
+    title_movie 
+        from Movies 
+            where (director_movie is null);
+
+create view v_detail_evaluations 
+    (id_movie, id_reviewer, title_movie, stars_rating,director_movie)
+        as 
+            select t1.id_movie, id_reviewer, title_movie,stars_rating, director_movie
+                from Movies t1, Ratings t2
+                    where t1.id_movie = t2.id_movie 
+                        order by (title_movie) ASC;
+
+select distinct year_movie 
+    from Movies t1 
+        inner join v_detail_evaluations t2 
+            on (stars_rating = 4 or stars_rating = 5)
+                order by (year_movie) DESC;
+
+select distinct name_reviewer 
+    from Reviewers t1 
+        natural join v_detail_evaluations t2 
+            where (title_movie = 'Gone with the Wind');
+
+select 
+    name_reviewer as nom_examinateur, 
+    title_movie as titre_film, 
+    stars_rating as nombre_etoiles
+        from Reviewers t1 
+            natural join v_detail_evaluations t2
+                order by (name_reviewer, title_movie, stars_rating);
+
+select 
+    name_reviewer as nom_examinateur,
+    title_movie as titre_film,
+    stars_rating as nombre_etoiles
+        from Reviewers t1 
+            natural join v_detail_evaluations t2 
+                natural join Movies t3
+                    where (t1.name_reviewer = t3.director_movie);
+
+select title_movie
+    from v_detail_evaluations
+        except 
+select title_movie 
+    from v_detail_evaluations
+        natural join Reviewers t2
+            where (t2.name_reviewer = 'Chris Jackson');
+
+                
+
 
 
 
