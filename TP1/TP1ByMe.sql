@@ -154,9 +154,3 @@ select title_movie
     from v_detail_evaluations
         natural join Reviewers t2
             where (t2.name_reviewer = 'Chris Jackson');
-
-                
-
-
-
-
