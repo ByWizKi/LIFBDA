@@ -223,3 +223,21 @@ select
     order by diff_note desc, title_movie asc;
 
 
+select
+    name_reviewer,
+    t.title_movie,
+    t.stars_rating,
+    AVG(t2.stars_rating)
+from
+    v_detail_evaluations as t
+join
+    reviewers as r ON t.id_reviewer = r.id_reviewer
+left join
+    v_detail_evaluations as t2 ON t.id_reviewer = t2.id_reviewer
+group by
+    name_reviewer, t.title_movie, t.stars_rating
+order by
+    name_reviewer, t.title_movie;
+
+
+
