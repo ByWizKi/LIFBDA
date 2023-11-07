@@ -1,0 +1,60 @@
+Question 2)
+ a)
+    oui on peut le faire avec une cle etrangère grâce a la cle primaire de la table Intervient on la mettra en cle etrangère dans la table cours.
+ b)
+    alter table club_de_danse.cours add constraint fk_cours_intervient foreign key (numresponsable_cours, code_cours) references prof_intervient_cours (num_prof, code_cours);
+
+ c)
+    insert into club_de_danse.professeurs 
+	(num_prof, 
+	nom_prof, 
+	prenom_prof, 
+	tel_prof)
+
+	values (1, 'Wiejacka', 'Jean', '0712121212');
+ d)
+    insert into club_de_danse.cours 
+	(code_cours, intitule_cours, numresponsable_cours, niveau_cours)
+	values
+	(1, 'Salsa', 1, 'Débutant');
+
+    le probleme c'est qu'il faut que le couple de la table num_prof et code_cours doivent etre dans la table intervient avant de creer le cours or si le cours n'existe pas impossible de dire que le prof intervient dans le cours dont il est responsable si il n'existe pas.
+
+Question 3)
+ begin;
+	set constraints fk_cours_intervient deferred;
+
+	insert into club_de_danse.cours 
+	(code_cours, intitule_cours, numresponsable_cours, niveau_cours)
+	values
+	(1, 'Salsa', 1, 'Débutant');
+
+	insert into club_de_danse.prof_intervient_cours
+		(num_prof, code_cours)
+		values
+		(1, 1);
+ commit;
+
+Question 4)
+    Oui car lorsqu'un cours est creer il doit le couple num_prof et code_cours doivent etre dans la table intervient.
+
+Question 5)
+ a)
+    alter table club_de_danse.professeurs add constraint in_S_or_V check(pas_dans_salaries(num_prof) = true or pas_dans_vacataires(num_prof) = true);
+    ne pas oublie d'ajouter le prof numero 1 soit dans vacataire ou salaries avant de faire la contrainte
+ b)
+    on ajoute deferrable dans les constrainte fk_sal_prof et fk_vac_prof
+ c)
+    begin;
+	    set constraints fk_vac_prof deferred;
+
+	    insert into club_de_danse.vacataires
+		    (num_vacataire, statut_vacataire)
+	    values
+		    (2, 'En Vacance');
+
+	    insert into club_de_danse.professeurs 
+		    (num_prof, nom_prof, prenom_prof, tel_prof)
+	    values
+		    (2, 'toto', 'titi', '060606060');
+    commit;

@@ -1,0 +1,36 @@
+professeur(
+    num_prof (souligne)
+    nom_prof
+    prenom_prof
+    tel_prof
+)
+
+salaries(
+    #num_prof (num_salarie) (souligne)
+    dateembauche_salarie
+    echelon_salarie
+    salaire_salarie
+)
+
+vacataires(
+    #num_prof(num_vacataire) (souligne)
+    statut_vacataire
+)
+
+contrats(
+    #num_vacataire (souligne)
+    date_contrat (souligne)
+    nbheures_contrat
+)
+
+cours(
+    code_cours (souligne)
+    intitule_cours 
+    #numresponsable_cours (num_prof)
+    niveau_cours
+)
+
+prof_intervient_cours(
+    #code_cours (souligne)
+    #num_prof (souligne)
+)
